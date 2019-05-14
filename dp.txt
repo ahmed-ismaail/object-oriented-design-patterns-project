@@ -1,0 +1,66 @@
+--create sequence bill_id_seq start with 1 increment by 1 maxvalue 20000000;
+--create sequence bill_id_seq2 start with 1 increment by 1 maxvalue 20000000;
+
+--drop sequence bill_id_seq2;
+CREATE TABLE Customer
+  (
+    Customer_Name     VARCHAR2(25),
+    Customer_ID       NUMBER(8) NOT NULL PRIMARY KEY ,
+    Address           VARCHAR2(25),
+    Email             VARCHAR2(25),
+    Phone_no          VARCHAR2(25),
+    Customer_Password VARCHAR2(25)
+  );
+  CREATE TABLE Manager
+  (
+    Manager_Name     VARCHAR2(25),
+    Manager_ID       NUMBER(8) NOT NULL PRIMARY KEY ,
+    Email             VARCHAR2(25),
+    Manager_Password VARCHAR2(25)
+  );
+CREATE TABLE Delivery_boy
+  (
+    Delivery_boy_Name VARCHAR2(25),
+    Delivery_boy_ID   NUMBER(8) NOT NULL PRIMARY KEY ,
+    Phone_no          VARCHAR2(25),
+    No_orders         number(1)
+  );
+--  select DELIVERY_BOY_ID from DELIVERY_BOY where NO_ORDERS< 2
+--drop table bill;
+  create table Bill 
+  (
+   bill_Id NUMBER(8) NOT NULL PRIMARY KEY,
+   Total_price float(63),
+   Bill_date varchar2(25),
+   Customer_id number(8) references Customer (Customer_ID),
+   Delivery_boy_ID number(8) references Delivery_boy (Delivery_boy_ID),
+   delivery_charges float(63)
+  );
+--  select CUSTOMER_ID from customer where EMAIL='ismail@gmail.com';
+  --drop table list_of_bill_products;
+  create table list_of_bill_products
+  (
+      bill_Id NUMBER(8) references Bill (bill_Id),
+      products_name varchar2(60),
+      primary key (bill_Id , products_name)
+  );
+  
+  create table Customer_Account
+  (
+    Account_no number(25) primary key,
+    Money float(63),
+    Customer_id number(8) references Customer (Customer_ID)
+  );
+--drop table product;
+  create table Product
+  ( 
+      P_name varchar2(25),
+      category_name varchar2(25),
+      quantity number(8),
+      price float(63)
+  );
+  
+ -- insert into Bill values (bill_id_seq.nextval , 500,sysdate,7984,1,5);
+--insert into LIST_OF_BILL_PRODUCTS values(bill_id_seq2.nextval -1 ,'shirt');
+  commit;
+  
